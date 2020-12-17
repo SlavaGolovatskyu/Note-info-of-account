@@ -1,10 +1,11 @@
+#s9hVixpgjK1gbFM8
 from pymongo import MongoClient
 from tkinter import *
 from tkinter import messagebox
 from random import choice
 from PlaceHolder import PlaceHolder
 
-cluster = MongoClient("YOUR CONNECT TO DATABASE (MongoDB)")
+cluster = MongoClient("YOUR CONNECT TO THE DATABASE (MongoDB)")
 
 db = cluster["testdata"]
 collection = db["testcoll"]
@@ -230,6 +231,50 @@ class UpdateInfoOfAccount:
         self.__backs.place(x = width / 3.5, y = 100)
         self.__update_info.place(x = width / 3.5, y = 150)
 
+class UsedAccounts:
+    def __init__(self, parent):
+        self.main = parent
+        self.root = Toplevel(parent)
+        self.root.title('Email Accounts')
+        self.root.resizable(False, False)
+        self.root.geometry(f'{width}x{height}+300+150')
+        self.root['bg'] = '#ccc'
+        self.textbox = Text(self.root, bg = '#ffffff', fg = '#0f0505', width = '30', height = '14')
+        self.__back_button = Button(self.root, text = 'Назад',
+                                    bg = '#0f0505', fg = '#ffffff',
+                                    activebackground = '#ffffff', activeforeground = '#0f0505',
+                                    width = '15', command = self.__back)
+
+    def __back(self):
+        self.root.destroy()
+        self.main.deiconify()
+
+    def OptionsScroolBar(self):
+        scroll = Scrollbar(self.root)
+        scroll.pack(side = 'right', fill = 'y')
+        scroll['command'] = self.textbox.yview
+        self.textbox['yscrollcommand'] = scroll.set
+
+    def insert_all_unused_accounts(self):
+        all_unused_accounts = collection.find({'used': True})
+        c = collection.count_documents({'used': True})
+        if c == 0:
+            self.textbox.insert(1.0, 'Нету')
+        else:
+            for i in all_unused_accounts:
+                self.textbox.insert(1.0, '[' + str(c) + '] Логин: ' + i['login'] + '\nПароль: ' + i['password'] + '\n')
+                c -= 1
+
+    def run(self):
+        self.draw_window()
+        self.OptionsScroolBar()
+        self.insert_all_unused_accounts()
+        self.root.mainloop()
+
+    def draw_window(self):
+        self.textbox.place(x = width / 13, y = 25)
+        self.__back_button.place(x = width / 3.5, y = 265)
+
 class DeleteAccountFromBD:
     def __init__(self, parent):
         self.main = parent
@@ -310,6 +355,15 @@ class Program:
                                        bg='#0f0505', fg='#ffffff',
                                        activebackground='#ffffff', activeforeground='#0f0505',
                                        width='15', height='2', command = self.__delete_account)
+        self.__list_used_accounts = Button(self.root, text='Использованые\nаккаунты',
+                                           bg='#0f0505', fg='#ffffff',
+                                           activebackground='#ffffff', activeforeground='#0f0505',
+                                           width='15', height='2', command=self.__list_used_accounts)
+
+    def __list_used_accounts(self):
+        self.root.withdraw()
+        new_window = UsedAccounts(self.root)
+        new_window.run()
 
     def __delete_account(self):
         self.root.withdraw()
@@ -341,11 +395,12 @@ class Program:
         self.root.mainloop()
 
     def __draw_window(self):
-        self.__turning_on_the_generator.place(x = width / 3.5, y = 30)
-        self.__add_new_data_of_account.place(x = width / 3.5, y = 75)
-        self.__window_all_unused_accounts.place(x = width / 3.5, y = 125)
-        self.__update_info.place(x = width / 3.5, y = 175)
-        self.__delete_account.place(x = width / 3.5, y = 225)
+        self.__turning_on_the_generator.place(x = width / 3.5, y = 20)
+        self.__add_new_data_of_account.place(x = width / 3.5, y = 65)
+        self.__window_all_unused_accounts.place(x = width / 3.5, y = 110)
+        self.__list_used_accounts.place(x = width / 3.5, y = 155)
+        self.__update_info.place(x = width / 3.5, y = 200)
+        self.__delete_account.place(x = width / 3.5, y = 245)
 
 if __name__ == '__main__':
     launching = Program()
