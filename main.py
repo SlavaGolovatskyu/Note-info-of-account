@@ -1,4 +1,3 @@
-from pymongo import MongoClient
 from tkinter import *
 from DeleteAccountFromBD import DeleteAccountFromBD
 from Generator import WindowGenerator
@@ -6,11 +5,6 @@ from AddNewAccount import AddNewAccounts
 from unusedaccounts import UnusedAccounts
 from Update_info import UpdateInfoOfAccount
 from used_accounts import UsedAccounts
-
-cluster = MongoClient("YOUR CONNECT TO THE DATABASE (MongoDB)")
-
-db = cluster["testdata"]
-collection = db["testcoll"]
 
 width = 300
 height = 300
