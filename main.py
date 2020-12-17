@@ -93,19 +93,3 @@ class Program:
 if __name__ == '__main__':
     launching = Program()
     launching.run()
-
-
-
-
-
-
-
-
-
-
-
-#collection.insert_one({'name': 'john', 'password': '5454'})
-#collection.update_one({'name': 'john'}, {"$set": {'password': 543654}})
-#password = collection.find_one({'name': 'john'})['password']
-#collection.delete_one({'name': 'john'})
-
