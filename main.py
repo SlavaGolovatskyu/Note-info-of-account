@@ -28,7 +28,7 @@ class WindowGenerator:
         self.root['bg'] = '#ccc'
 
         self.__main_entry = Entry(self.root, bg = '#0f0505', fg = '#ffffff',
-							      width = 20, font = 'Consolas 12', justify = 'center')
+				  width = 20, font = 'Consolas 12', justify = 'center')
 
         self.__back_button = Button(self.root, text = 'Назад',
                                     bg = '#0f0505', fg = '#ffffff',
@@ -74,10 +74,10 @@ class AddNewAccounts:
         self.main_place = PlaceHolder('Login', 'Password')
 
         self.__name_account_entry = Entry(self.root, bg = '#0f0505', fg = '#ffffff',
-							              width = 20, font = 'Consolas 12', justify = 'center')
+					  width = 20, font = 'Consolas 12', justify = 'center')
 
         self.__password_account_entry = Entry(self.root, bg = '#0f0505', fg = '#ffffff',
-							                  width = 20, font = 'Consolas 12', justify = 'center')
+				              width = 20, font = 'Consolas 12', justify = 'center')
 
         self.__button_for_back = Button(self.root, text = 'Назад',
                                         bg = '#0f0505', fg = '#ffffff',
@@ -188,9 +188,9 @@ class UpdateInfoOfAccount:
                                  width=20, font='Consolas 12', justify='center')
 
         self.__backs = Button(self.root, text = 'Назад',
-                             bg = '#0f0505', fg = '#ffffff',
-                             activebackground = '#ffffff', activeforeground = '#0f0505',
-                             width = '15', command = self.__back)
+                              bg = '#0f0505', fg = '#ffffff',
+                              activebackground = '#ffffff', activeforeground = '#0f0505',
+                              width = '15', command = self.__back)
 
         self.__update_info = Button(self.root, text = 'Записать аккаунт\nкак \"Использован\"',
                                     bg = '#0f0505', fg = '#ffffff',
@@ -291,19 +291,3 @@ class Program:
 if __name__ == '__main__':
     launching = Program()
     launching.run()
-
-
-
-
-
-
-
-
-
-
-
-#collection.insert_one({'name': 'john', 'password': '5454'})
-#collection.update_one({'name': 'john'}, {"$set": {'password': 543654}})
-#password = collection.find_one({'name': 'john'})['password']
-#collection.delete_one({'name': 'john'})
-
