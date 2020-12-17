@@ -1,4 +1,3 @@
-#s9hVixpgjK1gbFM8
 from pymongo import MongoClient
 from tkinter import *
 from tkinter import messagebox
