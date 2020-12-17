@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 from random import choice
 
@@ -31,10 +32,7 @@ class WindowGenerator:
                                       width = '15', command = self.insert_info)
 
     def __generate(self):
-        randomName = ""
-        for j in range(lengthNameAndPassword):
-            randomName += choice(ABC + numbers)
-        return randomName
+        return "".join(random.sample(ABC + numbers, lengthNameAndPassword))
 
     def insert_info(self):
         self.__main_entry.delete(0, END)
