@@ -1,11 +1,5 @@
-from pymongo import MongoClient
 from tkinter import *
 from random import choice
-
-cluster = MongoClient("YOUR CONNECT TO THE DATABASE (MongoDB)")
-
-db = cluster["testdata"]
-collection = db["testcoll"]
 
 width = 300
 height = 300
