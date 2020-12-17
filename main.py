@@ -4,7 +4,7 @@ from tkinter import messagebox
 from random import choice
 from PlaceHolder import PlaceHolder
 
-cluster = MongoClient("mongodb+srv://slavsup15:s9hVixpgjK1gbFM8@cluster0.hgr2y.mongodb.net/testdata?retryWrites=true&w=majority")
+cluster = MongoClient("YOUR CONNECT TO DATABASE (MongoDB)")
 
 db = cluster["testdata"]
 collection = db["testcoll"]
