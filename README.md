@@ -9,8 +9,8 @@
 * git clone https://github.com/SlavaGolovatskyu/Note-info-of-account.git
 * cd Note-info-of-account
 * pip install pymongo
-И установить соединение со своей базой данных (MongoDB) 
-И уже после всех этих действий:
+* И установить соединение со своей базой данных (MongoDB) 
+* И уже после всех этих действий:
 * python main.py
 
 
@@ -24,6 +24,6 @@ What needs to be done, how did the program start?
 * git clone https://github.com/SlavaGolovatskyu/Note-info-of-account.git
 * cd Note-info-of-account
 * pip install pymongo
-Establish a connection to your database (MongoDB)
-And after all these actions:
+* Establish a connection to your database (MongoDB)
+* And after all these actions:
 * python main.py
