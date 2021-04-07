@@ -7,8 +7,11 @@
 Что нужно сделать чтоб програма запустилась?
 Скачать сам Python. Дальше:
 git clone https://github.com/SlavaGolovatskyu/Note-info-of-account.git
+cd Note-info-of-account
 pip install pymongo
 И установить соединение со своей базой данных (MongoDB) 
+И уже после всех этих действий:
+python main.py
 
 
 
@@ -19,5 +22,8 @@ Yak pratsyuє program, yaku vi can have a look here -> https://www.youtube.com/w
 What needs to be done, how did the program start?
 Download Python itself. Further:
 git clone https://github.com/SlavaGolovatskyu/Note-info-of-account.git
+cd Note-info-of-account
 pip install pymongo
 Establish a connection to your database (MongoDB)
+And after all these actions:
+python main.py
