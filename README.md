@@ -15,11 +15,11 @@
 
 
 
-The program is given for saving money from the postal screen. Which have not been used anywhere. Yaksho vi vikoristovyvali account, vi tse write in the program.
-Є generator for a random name or a password (triviality is also permanent, so that it is already installed in the program itself).
-Є The ability to add data about a new account in the database.
-Yak pratsyuє program, yaku vi can have a look here -> https://www.youtube.com/watch?v=5u4BJ1qGz9Q&feature=youtu.be&ab_channel=%D0%93%D0%BE%D0%BB%D0%BE%D0%
-What needs to be done, how did the program start?
+This program is designed to save data from mail. Which have not been used anywhere. If you used an account, you write it down in the program.
+There is a generator for a random name or password (the length is already constant, that is already set in the program itself).
+It is possible to add data about a new account to the database.
+You can see how the program works here -> https://www.youtube.com/watch?v=5u4BJ1qGz9Q&feature=youtu.be&ab_channel=%D0%93%D0%BE%D0%BB%D0%BE%D0%
+What needs to be done to start the program?
 ## Download Python itself. Further:
 * git clone https://github.com/SlavaGolovatskyu/Note-info-of-account.git
 * cd Note-info-of-account
