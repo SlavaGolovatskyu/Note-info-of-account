@@ -1,9 +1,10 @@
 import random
-from tkinter import *
-from random import choice
 
-width = 300
-height = 300
+from tkinter import Toplevel, Entry, END
+
+from Phrases import Phrases
+from helpers.BuildWidget import BuildWidget
+from helpers.CustomButton import GenerateCustomButtons
 
 ABC = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
 numbers = '1234567890'
@@ -13,23 +14,25 @@ lengthNameAndPassword = 15
 class WindowGenerator:
     def __init__(self, parent):
         self.main = parent
-        self.root = Toplevel(parent)
-        self.root.title('Email Accounts')
-        self.root.resizable(False, False)
-        self.root.geometry(f'{width}x{height}+300+150')
-        self.root['bg'] = '#ccc'
+        self.width, self.height = 300, 300
+        self.root: Toplevel = BuildWidget(parent, title='Email Accounts', width=self.width, height=self.height)
 
         self.__main_entry = Entry(self.root, bg = '#0f0505', fg = '#ffffff',
 							      width = 20, font = 'Consolas 12', justify = 'center')
 
-        self.__back_button = Button(self.root, text = 'Назад',
-                                    bg = '#0f0505', fg = '#ffffff',
-                                    activebackground = '#ffffff', activeforeground = '#0f0505',
-                                    width = '15', command = self.__back)
-        self.__generate_info = Button(self.root, text = 'Сгенерировать',
-                                      bg = '#0f0505', fg = '#ffffff',
-                                      activebackground = '#ffffff', activeforeground = '#0f0505',
-                                      width = '15', command = self.insert_info)
+        self.buttons = [
+            {
+                'text': Phrases.back,
+                'bind': self.__back,
+            },
+            {
+                'text': 'Сгенерировать',
+                'bind': self.insert_info,
+            },
+        ]
+
+        self.__back_button,
+        self.__generate_info = GenerateCustomButtons(self.root, self.buttons)
 
     def __generate(self):
         return "".join(random.sample(ABC + numbers, lengthNameAndPassword))
@@ -47,6 +50,6 @@ class WindowGenerator:
         self.root.mainloop()
 
     def __draw_window(self):
-        self.__main_entry.place(x = width / 5, y = 50)
-        self.__back_button.place(x = width / 3.3, y = 100)
-        self.__generate_info.place(x = width / 3.3, y = 150)
+        self.__main_entry.place(x = self.width / 5, y = 50)
+        self.__back_button.place(x = self.width / 3.3, y = 100)
+        self.__generate_info.place(x = self.width / 3.3, y = 150)

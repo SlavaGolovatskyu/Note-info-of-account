@@ -29,27 +29,12 @@ class PlaceHolder:
 	"""
 
 	def DeletePlaceHolder(self, number, CountEnter, enter, enter_2 = None, enter_3 = None, enter_4 = None):
-		numb = 1 if number == 1 else number
-		# Проверка на наше число. С помощью тернарника и обычных проверок.
-		if numb != 1:
-			numb = 2 if number == 2 else 3
-		# if numb == 3:
-		#	numb = 3 if number == 3 else 4
-
 		# Делаем генератор списка. С проверкой. Если i не равно numb добавляем елемент. В ином случае пропускаем.
-		array = [i for i in range(1, CountEnter + 1) if i != numb]
+		array = [i for i in range(1, CountEnter + 1) if i != number]
 
-		# Ищем главную Entry
-		MainEnter = enter if numb == 1 else 2
-		if MainEnter == 2:
-			MainEnter = enter_2 if numb == 2 else enter_3
-		# if MainEnter == 3:
-		#	MainEnter = enter_3 if numb == 3 else enter_4
-
-		# Ищем 2 Entry
+		MainEnter = enter if number == 1 else enter_2 if number == 2 else enter_3
 		SecondEnter = enter if array[0] == 1 else enter_2
 
-		# Пока что None. Но если код заходит в проверку значение меняетса.
 		ThreeEnter = True
 		DictForCheck = {}
 
@@ -59,7 +44,7 @@ class PlaceHolder:
 		# Если Entry 2 шт. Код делает следующее...
 		if CountEnter == 2:
 			# Добавляем главное число в список которое передали в нашу функцию.
-			array.append(numb)
+			array.append(number)
 			DictForCheck = {
 				array[0]: SecondEnter.get(),
 				# После того как добавили число в список появился елемент с идексом 1

@@ -1,52 +1,54 @@
-from pymongo import MongoClient
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Toplevel, Tk, Entry, messagebox
+
+from helpers.BuildWidget import BuildWidget
+from helpers.CustomButton import GenerateCustomButtons
+from Phrases import ButtonKeys, Phrases
 from PlaceHolder import PlaceHolder
 
-
-cluster = MongoClient("YOUR CONNECT TO THE DATABASE (MongoDB)")
-
-db = cluster["testdata"]
-collection = db["testcoll"]
-
-width = 300
-height = 300
-
 class AddNewAccounts:
-    def __init__(self, parent):
+    def __init__(self, parent: Tk, collection):
+        self.collection = collection
         self.main = parent
-        self.root = Toplevel(parent)
-        self.root.title('Email Accounts')
-        self.root.resizable(False, False)
-        self.root.geometry(f'{width}x{height}+300+150')
-        self.root['bg'] = '#ccc'
+        self.width, self.height = 300, 300
+        self.root: Toplevel = BuildWidget(parent, title='Email Accounts', width=self.width, height=self.height)
 
-        self.main_place = PlaceHolder('Login', 'Password')
+        self.ph = PlaceHolder('Login', 'Password')
 
         self.__name_account_entry = Entry(self.root, bg = '#0f0505', fg = '#ffffff',
 							              width = 20, font = 'Consolas 12', justify = 'center')
 
         self.__password_account_entry = Entry(self.root, bg = '#0f0505', fg = '#ffffff',
 							                  width = 20, font = 'Consolas 12', justify = 'center')
+        
+        self.buttons = [
+            {
+                'text': Phrases.back,
+                'bind': self.__back,
+            },
+            {
+                'text': 'Записать данные',
+                'bind': self.__add_new_account_in_bd,
+            },
+        ]
 
-        self.__button_for_back = Button(self.root, text = 'Назад',
-                                        bg = '#0f0505', fg = '#ffffff',
-                                        activebackground = '#ffffff', activeforeground = '#0f0505',
-                                        width = '15', height = '2', command = self.__back)
+        self.__button_for_back,
+        self.__write_data = GenerateCustomButtons(self.root, self.buttons)
 
-        self.__write_data = Button(self.root, text = 'Записать данные',
-                                   bg = '#0f0505', fg = '#ffffff',
-                                   activebackground = '#ffffff', activeforeground = '#0f0505',
-                                   width = '15', height = '2', command = self.__add_new_account_in_bd)
+        self.__name_account_entry.bind(
+            ButtonKeys.LEFT_BUTTON_OF_MOUSE,
+            self.LaunchPlaceHolder1,
+        )
 
-        self.__name_account_entry.bind('<Button-1>', self.LaunchPlaceHolder1)
-        self.__password_account_entry.bind('<Button-1>', self.LaunchPlaceHolder2)
+        self.__password_account_entry.bind(
+            ButtonKeys.LEFT_BUTTON_OF_MOUSE,
+            self.LaunchPlaceHolder2,
+        )
 
     def LaunchPlaceHolder1(self, event):
-        self.main_place.DeletePlaceHolder(1, 2, self.__name_account_entry, self.__password_account_entry)
+        self.ph.DeletePlaceHolder(1, 2, self.__name_account_entry, self.__password_account_entry)
 
     def LaunchPlaceHolder2(self, event):
-        self.main_place.DeletePlaceHolder(2, 2, self.__name_account_entry, self.__password_account_entry)
+        self.ph.DeletePlaceHolder(2, 2, self.__name_account_entry, self.__password_account_entry)
 
     def __back(self):
         self.root.destroy()
@@ -55,14 +57,17 @@ class AddNewAccounts:
     def __add_new_account_in_bd(self):
         EmailName = self.__name_account_entry.get()
         Password = self.__password_account_entry.get()
-        if EmailName and Password:
-            if collection.count_documents({'login': EmailName}) == 0:
-                collection.insert_one({'login': EmailName, 'password': Password, 'used': False})
-                messagebox.showinfo('Успешно', 'Данные успешно записаны.')
-            else:
-                messagebox.showerror('Ошибка', 'Данный аккаунт уже записан в базе данных.')
-        else:
+
+        if not EmailName or not Password:
             messagebox.showerror('Ошибка', 'Введите все данные.')
+            return
+
+        if self.collection.count_documents({'login': EmailName}) != 0:
+            messagebox.showerror('Ошибка', 'Данный аккаунт уже записан в базе данных.')
+            return
+
+        self.collection.insert_one({'login': EmailName, 'password': Password, 'used': False})
+        messagebox.showinfo('Успешно', 'Данные успешно записаны.')
 
     def insert_info(self):
         self.__name_account_entry.insert(0, 'Login')
@@ -74,7 +79,7 @@ class AddNewAccounts:
         self.root.mainloop()
 
     def draw_window(self):
-        self.__name_account_entry.place(x = width / 5, y = 50)
-        self.__password_account_entry.place(x = width / 5, y = 100)
-        self.__button_for_back.place(x = width / 3.3, y = 150)
-        self.__write_data.place(x = width / 3.3, y = 200)
+        self.__name_account_entry.place(x = self.width / 5, y = 50)
+        self.__password_account_entry.place(x = self.width / 5, y = 100)
+        self.__button_for_back.place(x = self.width / 3.3, y = 150)
+        self.__write_data.place(x = self.width / 3.3, y = 200)

@@ -1,70 +1,82 @@
-from tkinter import *
+from pymongo import MongoClient
+
+from helpers.BuildWidget import BuildWidget
+from helpers.CustomButton import GenerateCustomButtons
 from DeleteAccountFromBD import DeleteAccountFromBD
 from Generator import WindowGenerator
 from AddNewAccount import AddNewAccounts
-from unusedaccounts import UnusedAccounts
+from accounts import Accounts
 from Update_info import UpdateInfoOfAccount
-from used_accounts import UsedAccounts
+
+cluster = MongoClient("YOUR CONNECT TO THE DATABASE (MongoDB)")
+
+db = cluster["testdata"]
+collection = db["testcoll"]
 
 width = 300
 height = 300
 
 class Program:
     def __init__(self):
-        self.root = Tk()
-        self.root.title('Email Accounts')
-        self.root.resizable(False, False)
-        self.root.geometry(f'{width}x{height}+300+150')
-        self.root['bg'] = '#ccc'
+        self.root = BuildWidget(title='Email Accounts')
 
-        self.__turning_on_the_generator = Button(self.root, text = 'Генератор',
-                                                 bg = '#0f0505', fg = '#ffffff',
-                                                 activebackground = '#ffffff', activeforeground = '#0f0505',
-                                                 width = '15', command = self.__turn_on_generator)
-        self.__add_new_data_of_account = Button(self.root, text = 'Добавление\nНовых аккаунтов',
-                                                bg = '#0f0505', fg = '#ffffff',
-                                                activebackground = '#ffffff', activeforeground = '#0f0505',
-                                                width = '15', height = '2', command = self.__add_new_account)
-        self.__window_all_unused_accounts = Button(self.root, text = 'Не использованные\nаккаунты',
-                                                   bg = '#0f0505', fg = '#ffffff',
-                                                   activebackground = '#ffffff', activeforeground = '#0f0505',
-                                                   width = '15', height = '2', command = self.__unused_account)
-        self.__update_info = Button(self.root, text = 'Обновить данные\nоб аккаунте',
-                                    bg='#0f0505', fg='#ffffff',
-                                    activebackground='#ffffff', activeforeground='#0f0505',
-                                    width='15', height='2', command = self.__update_info)
-        self.__delete_account = Button(self.root, text = 'Удалить аккаунт',
-                                       bg='#0f0505', fg='#ffffff',
-                                       activebackground='#ffffff', activeforeground='#0f0505',
-                                       width='15', height='2', command = self.__delete_account)
-        self.__list_used_accounts = Button(self.root, text='Использованые\nаккаунты',
-                                           bg='#0f0505', fg='#ffffff',
-                                           activebackground='#ffffff', activeforeground='#0f0505',
-                                           width='15', height='2', command=self.__list_used_accounts)
+        self.buttons = [
+            {
+                'text': 'Генератор',
+                'bind': self.__turn_on_generator,
+            },
+            {
+                'text': 'Добавление\nНовых аккаунтов',
+                'bind': self.__add_new_account,
+            },
+            {
+                'text': 'Не использованные\nаккаунты',
+                'bind': self.__unused_account,
+            },
+            {
+                'text': 'Обновить данные\nоб аккаунте',
+                'bind': self.__update_info,
+            },
+            {
+                'text': 'Удалить аккаунт',
+                'bind': self.__delete_account,
+            },
+            {
+                'text': 'Использованые\nаккаунты',
+                'bind': self.__list_used_accounts,
+            },
+        ]
+
+        self.__turning_on_the_generator,
+        self.__add_new_data_of_account,
+        self.__window_all_unused_accounts,
+        self.__update_info,
+        self.__delete_account,
+        self.__list_used_accounts = GenerateCustomButtons(self.root, self.buttons)
 
     def __list_used_accounts(self):
         self.root.withdraw()
-        new_window = UsedAccounts(self.root)
-        new_window.run()
-
-    def __delete_account(self):
-        self.root.withdraw()
-        new_window = DeleteAccountFromBD(self.root)
-        new_window.run()
-
-    def __update_info(self):
-        self.root.withdraw()
-        new_window = UpdateInfoOfAccount(self.root)
+        new_window = Accounts(self.root, is_used=True, collection=collection)
         new_window.run()
 
     def __unused_account(self):
         self.root.withdraw()
-        new_window = UnusedAccounts(self.root)
+        new_window = Accounts(self.root, is_used=False, collection=collection)
+        new_window.run()
+
+    def __delete_account(self):
+        self.root.withdraw()
+        new_window = DeleteAccountFromBD(self.root, collection=collection)
+        new_window.run()
+
+    def __update_info(self):
+        self.root.withdraw()
+        new_window = UpdateInfoOfAccount(self.root, collection=collection)
         new_window.run()
 
     def __add_new_account(self):
         self.root.withdraw()
-        self.new_window = AddNewAccounts(self.root)
+        self.new_window = AddNewAccounts(self.root, collection=collection)
         self.new_window.run()
 
     def __turn_on_generator(self):
